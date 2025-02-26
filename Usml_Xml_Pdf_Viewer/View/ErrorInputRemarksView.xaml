@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Usml_Xml_Pdf_Viewer.View.ErrorInputRemarksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Usml_Xml_Pdf_Viewer.View"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="300">
+    <Grid Background="White">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel  Background="#1976D2" Grid.Row="0">
+            <TextBlock Text="Error Input Remarks" Margin="5" FontSize="20" FontWeight="DemiBold" Foreground="White"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="5">
+            <TextBlock Text="Highlight Error Text info." />
+            <TextBlock Text="{Binding ErrorHighlightInfo}" TextWrapping="Wrap" />
+            
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <TextBlock Text="Generic Error: "/>
+                <ComboBox ItemsSource="{Binding GenericErrorList}" SelectedItem="{Binding SelectedGenericError, Mode=TwoWay}" Width="130" Margin="30 0 0 0 " />
+                <Button Background="#1976D2" Command="{Binding UploadGenericErrorFileCommand}">
+                    <mah:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE898;" Foreground="White" FontSize="10"  />
+                </Button>
+                <!--<TextBox Text="{Binding GenericErrorInput}" TextWrapping="Wrap" Width="150" Margin="30 0 0 0 "/>-->
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <TextBlock Text="Remarks: " Margin="0 0 54.5 0"/>
+                <TextBox Text="{Binding RemarksErrorInput}" TextWrapping="Wrap" Width="150"/>
+            </StackPanel>
+
+            <StackPanel Margin="10 20 0 0" Orientation="Horizontal">
+                <Button Content="Save Error" Command="{Binding SaveErrorRemarkCommand}" CommandParameter="save" Background="#1976D2" Foreground="White" Width="100" HorizontalAlignment="Left"/>
+                <Button Content="Cancel" Command="{Binding SaveErrorRemarkCommand}" CommandParameter="cancel" Background="Red" Foreground="White" Width="100" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+            </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

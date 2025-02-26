@@ -1,0 +1,7 @@
+spellchecker {
+    /*background-color: yellow; */ /* Highlights the text */
+    color: red; /* Makes the text red */
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 3px;
+}

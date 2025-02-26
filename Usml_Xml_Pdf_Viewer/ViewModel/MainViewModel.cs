@@ -359,7 +359,7 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
         /// Load the document into the control. Set the control as a global variable.
         /// </summary>
         /// <param name="documentViewerXamlControl"></param>
-        /// <returns></returns>
+        /// <returns></returns>/
         private async Task SelectPDFFile(DocumentViewer documentViewerXamlControl)
         {
             try

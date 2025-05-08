@@ -1365,7 +1365,8 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                 }
 
 
-                if (highlightInfo.pageNumber != 0 && highlightInfo.highlightedText != null && highlightInfo.xmlTag != null && highlightInfo.xmlLineNumber != 0)
+                //if (highlightInfo.pageNumber != 0 && highlightInfo.highlightedText != null && highlightInfo.xmlTag != null && highlightInfo.xmlLineNumber != 0)
+                if (highlightInfo.highlightedText != null && highlightInfo.xmlTag != null && highlightInfo.xmlLineNumber != 0)
                 {
                     IsPopUpErrorInput = true;
                     IsErrorInputGrid = Visibility.Visible;
@@ -1398,7 +1399,8 @@ XML Tag: <{highlightInfo.xmlTag}>";
                 string inputFileNameWithoutExt = Path.GetFileNameWithoutExtension(GlobalXmlFilePath);
 
 
-                if (highlightXmlTag == null || highlightBrowserText == null || highlightPageNumber == 0 || highlightXmlLineNumber == 0) { isInputEmpty = true; }
+                //if (highlightXmlTag == null || highlightBrowserText == null || highlightPageNumber == 0 || highlightXmlLineNumber == 0) { isInputEmpty = true; }
+                if (highlightXmlTag == null || highlightBrowserText == null || highlightXmlLineNumber == 0) { isInputEmpty = true; }
 
 
                 switch (buttons)

@@ -1364,7 +1364,7 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                     }
                 }
 
-
+                //Remove Hightlight page validation
                 //if (highlightInfo.pageNumber != 0 && highlightInfo.highlightedText != null && highlightInfo.xmlTag != null && highlightInfo.xmlLineNumber != 0)
                 if (highlightInfo.highlightedText != null && highlightInfo.xmlTag != null && highlightInfo.xmlLineNumber != 0)
                 {

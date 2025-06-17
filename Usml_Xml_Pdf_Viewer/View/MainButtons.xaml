@@ -18,7 +18,7 @@
                 <RibbonApplicationMenu Visibility="Collapsed"/>
             </Ribbon.ApplicationMenu>
             
-            <RibbonTab Header="Main" IsSelected="True" >
+            <RibbonTab Header="Main" IsSelected="False" >
 
                 <!--Document-->
                 <RibbonGroup Header="Input">
@@ -95,9 +95,13 @@
                     <TextBlock Text="Reset All" Margin="0 10 0 10"/>
                     <Button Content="Close" Command="{Binding CloseOrResetAllCommand}" Background="Red" Foreground="White"/>
                 </RibbonGroup>
+                <RibbonGroup>
+                    <TextBlock Text="Capture Prod" Margin="0 10 0 10"/>
+                    <Button Content="ScreenShot" Command="{Binding ScreenShotCommand}" Background="Green" Foreground="White"/>
+                </RibbonGroup>
             </RibbonTab>
 
-            <RibbonTab Header="Side Note" >
+            <RibbonTab Header="Side Note" Visibility="Visible" >
                 
                 <RibbonGroup Header="Sidenotes">
                     <!--<TextBlock Text="&lt;sidenote#&gt; tag in xml" Margin="0 10 0 10"/>-->

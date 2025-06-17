@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HandyControl.Controls;
 using Syncfusion.XlsIO;
 using Usml_Xml_Pdf_Viewer.Model;
 
@@ -21,7 +22,8 @@ namespace Usml_Xml_Pdf_Viewer.Service
                 string inputDirectory = Path.GetDirectoryName(xmlpath);
                 string inputFileNameWithoutExt = Path.GetFileNameWithoutExtension(xmlpath);
                 string datetimeMark = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
-                string outExcelFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_Error_Report_{datetimeMark}.xlsx");
+                //string outExcelFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_Error_Report_{datetimeMark}.xlsx");
+                string outExcelFile = string.Empty;
 
                 #region Excel
                 using (ExcelEngine excelEngine = new ExcelEngine())
@@ -51,23 +53,35 @@ namespace Usml_Xml_Pdf_Viewer.Service
 
                     #region Data
 
-                    for (int row = 0; row < ErrorReportCollection.Count; row++)
+                    if (ErrorReportCollection.Count == 0)
                     {
-                        ErrorReportModel record = ErrorReportCollection[row];
-                        ws[row + 2, 1].Text = record.FileName;
-                        ws[row + 2, 2].Number = record.VisiblePage;
-                        ws[row + 2, 3].Number = record.LineNumberXML;
-                        ws[row + 2, 4].Text = record.HighlightText;
-                        ws[row + 2, 5].Text = record.Generic;
-                        ws[row + 2, 6].Text = record.Remarks;
+                        ws[2, 1].Text = inputFileNameWithoutExt; // File name
+                        ws[2, 6].Text = "No error found";
 
-                        //center align the data
-                        for (int column = 1; column <= 100; column++)
+                        outExcelFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_NoReport_{datetimeMark}.xlsx");
+                    }
+                    else
+                    {
+                        for (int row = 0; row < ErrorReportCollection.Count; row++)
                         {
-                            ws[1, column].HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                            ws[row + 2, column].HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                            ErrorReportModel record = ErrorReportCollection[row];
+                            ws[row + 2, 1].Text = record.FileName;
+                            ws[row + 2, 2].Number = record.VisiblePage;
+                            ws[row + 2, 3].Number = record.LineNumberXML;
+                            ws[row + 2, 4].Text = record.HighlightText;
+                            ws[row + 2, 5].Text = record.Generic;
+                            ws[row + 2, 6].Text = record.Remarks;
 
+                            //center align the data
+                            for (int column = 1; column <= 100; column++)
+                            {
+                                ws[1, column].HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                                ws[row + 2, column].HorizontalAlignment = ExcelHAlign.HAlignCenter;
+
+                            }
                         }
+                        
+                        outExcelFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ErrorReport_{datetimeMark}.xlsx");
                     }
                     #endregion
 

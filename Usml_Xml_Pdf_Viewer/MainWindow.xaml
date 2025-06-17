@@ -13,6 +13,7 @@
         xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:local="clr-namespace:Usml_Xml_Pdf_Viewer"
         xmlns:converter="clr-namespace:Usml_Xml_Pdf_Viewer.Service"
+                  xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
@@ -49,7 +50,11 @@
                     </dx:Interaction.Behaviors>
                 </PdfViewer:PdfViewerControl>
             
-                <!--Status indicator-->
+            <!--Notification area for success messages-->
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
+                <StackPanel hc:Growl.GrowlParent="True" hc:Growl.Token="SuccessMsg" VerticalAlignment="Top" Margin="0,10,10,10"/>
+            </ScrollViewer>
+            <!--Status indicator-->
             <!--<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Visibility="{Binding LoadingStatusPdf, Mode=TwoWay}" Background="DarkSlateGray" Foreground="White" Padding="5">
                 <TextBlock Text="Loading PDF..."/>
             </TextBlock>-->
@@ -97,6 +102,8 @@
                 </dx:Interaction.Behaviors>
             </avalonEdit:TextEditor>
                 
+              
+            
             </Grid>
         </Grid>
 
@@ -112,7 +119,12 @@
 
                     <v:ErrorInputRemarksView />
                 </Border>
+       
             </Grid>
-        </Grid>
+
+
+
+
+    </Grid>
    
 </mah:MetroWindow>

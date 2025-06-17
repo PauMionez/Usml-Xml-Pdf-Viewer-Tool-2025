@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,9 @@ using UglyToad.PdfPig;
 using UglyToad.PdfPig.DocumentLayoutAnalysis.PageSegmenter;
 using Usml_Xml_Pdf_Viewer.Model;
 using Usml_Xml_Pdf_Viewer.Service;
+using System.Diagnostics;
+using HandyControl.Controls;
+using HandyControl.Data;
 
 namespace Usml_Xml_Pdf_Viewer.ViewModel
 {
@@ -50,6 +55,7 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
         public DevExpress.Mvvm.DelegateCommand<string> SaveErrorRemarkCommand { get; private set; }
         public DevExpress.Mvvm.DelegateCommand UploadGenericErrorFileCommand { get; private set; }
         public DevExpress.Mvvm.DelegateCommand CloseOrResetAllCommand { get; private set; }
+        public DevExpress.Mvvm.DelegateCommand ScreenShotCommand { get; private set; }
         //public DevExpress.Mvvm.DelegateCommand SpellCheckerCommand { get; private set; }
         public DevExpress.Mvvm.DelegateCommand RemoveSpellcheckerTagsCommand { get; private set; }
         public DevExpress.Mvvm.DelegateCommand AddIdOnSidenoteCommand { get; private set; }
@@ -78,6 +84,9 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
             SaveErrorRemarkCommand = new DevExpress.Mvvm.DelegateCommand<string>(SaveErrorRemark);
             UploadGenericErrorFileCommand = new DevExpress.Mvvm.DelegateCommand(UploadGenericErrorFile);
             CloseOrResetAllCommand = new DevExpress.Mvvm.DelegateCommand(CloseOrResetAll);
+            ScreenShotCommand = new DevExpress.Mvvm.DelegateCommand(ScreenShot);
+
+
             //SpellCheckerCommand = new DevExpress.Mvvm.DelegateCommand(SpellChecker);
             RemoveSpellcheckerTagsCommand = new DevExpress.Mvvm.DelegateCommand(RemoveSpellcheckerTags);
             AddIdOnSidenoteCommand = new DevExpress.Mvvm.DelegateCommand(AddIdOnSidenote);
@@ -430,6 +439,73 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                 SpellChecker();
 
 
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage(ex);
+            }
+        }
+
+        private void ScreenShot()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(GlobalXmlFilePath))
+                {
+                    Growl.Error(new GrowlInfo
+                    { 
+                        Message = "File is Not Selected.",
+                        WaitTime = 3,
+                        ShowDateTime = false,
+                        Type = InfoType.Error,
+                        IsCustom = false
+                    });
+                        
+                    return;
+                }
+
+                // Get the directory and filename (without extension) of the input PDF
+                string inputDirectory = Path.GetDirectoryName(GlobalXmlFilePath);
+                string inputFileNameWithoutExt = Path.GetFileNameWithoutExtension(GlobalXmlFilePath);
+                string datetimeMark = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+                //string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ScreenShotViewer.jpg");
+                string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ScreenShotViewer_{datetimeMark}.jpg");
+
+
+                // Get the primary screen size
+                int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
+                int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+                using (Bitmap bmp = new Bitmap(screenWidth, screenHeight))
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+                    }
+
+                    bmp.Save(outImageFile, ImageFormat.Png);
+                }
+
+                // Show growl with 3-second timeout
+                Growl.Success(new GrowlInfo
+                {
+                    Message = "Screenshot saved!",
+                    WaitTime = 3,            
+                    ShowDateTime = false,
+                    Type = InfoType.Success,
+                    IsCustom = false
+                });
+
+                ////Process.Start(outImageFile);
+                //// Try to open the image
+                //try
+                //{
+                //    Process.Start(new ProcessStartInfo(outImageFile) { UseShellExecute = true });
+                //}
+                //catch (Exception startEx)
+                //{
+                //    Growl.Warning("Screenshot saved but could not open the file.");
+                //}
             }
             catch (Exception ex)
             {

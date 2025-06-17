@@ -446,6 +446,9 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
             }
         }
 
+        /// <summary>
+        /// Screenshot the current screen and save it as an image file.
+        /// </summary>
         private void ScreenShot()
         {
             try

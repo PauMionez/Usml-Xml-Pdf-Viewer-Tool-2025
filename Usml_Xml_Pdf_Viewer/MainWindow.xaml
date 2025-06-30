@@ -71,7 +71,12 @@
             <GridSplitter Grid.Row="1" Visibility="{Binding XmlEditorVisibility}" Background="LightGray"/>
             <!--Xml view base on CSS-->
             <Grid Grid.Row="0" Grid.RowSpan="{Binding BrowserGridRowSpan}">
-            <TextBlock Text="Xml Css Viewer" Margin="30 1 0 0" FontSize="12"  />
+            <TextBlock Text="Xml Css Viewer" Margin="30 1 0 0" FontSize="12" />
+                <TextBlock HorizontalAlignment="Right" Margin="0 0 10 0">
+                    <Run Text="Zoom: "/>
+                    <Run Text="{Binding CSSZoomPercent}"/>
+                    <Run Text="%" />
+                </TextBlock>
                 <cef:ChromiumWebBrowser x:Name="CefBrowser" Margin="20 20 5 5">
                     <dx:Interaction.Behaviors>
                         <dx:EventToCommand EventName="Loaded" Command="{Binding LoadXmlCSSWebCommand}" CommandParameter="{Binding ElementName=CefBrowser}"/>
@@ -93,6 +98,11 @@
         <!--XML Text Editor-->
         <Grid Grid.Row="2" Visibility="{Binding XmlEditorVisibility}">
             <TextBlock Text="Xml Coding Entry" Margin="30 1 0 0" FontSize="12"/>
+                <TextBlock HorizontalAlignment="Right" Margin="0 0 10 0">
+                     <Run Text="Zoom: "/>
+                     <Run Text="{Binding XmlZoomPercent}"/>
+                     <Run Text="%" />
+                </TextBlock>
                 <avalonEdit:TextEditor Name="avalonTextEditor" SyntaxHighlighting="XML" FontFamily="Consolas" FontSize="{Binding XmlTextFontSize}" WordWrap="True" Margin="20 20 20 10" Document="{Binding CodingTxtDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VirtualizingPanel.IsVirtualizing="True" ShowLineNumbers="True">
                 <dx:Interaction.Behaviors>
                     <dx:EventToCommand EventName="Loaded" Command="{Binding AvalonTextEditor_LoadedCommand}" CommandParameter="{Binding ElementName=avalonTextEditor}"/>

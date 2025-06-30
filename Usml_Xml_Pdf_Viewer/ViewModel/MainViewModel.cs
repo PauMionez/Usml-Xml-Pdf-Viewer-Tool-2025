@@ -111,6 +111,9 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
             IsErrorInputGrid = Visibility.Hidden;
             XmlTextFontSize = 12;
             IsXmlViewerChecked = true;
+
+            CSSZoomPercent = 100;
+            XmlZoomPercent = 100;
         }
 
         #region Properties
@@ -307,6 +310,22 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
             set { _xmlTextFontSize = value; OnPropertyChanged(); }
         }
 
+        private double _cssZoomPercent;
+
+        public double CSSZoomPercent
+        {
+            get { return _cssZoomPercent; }
+            set { _cssZoomPercent = value; OnPropertyChanged(); }
+        }
+
+        private double _xmlZoomPercent;
+
+        public double XmlZoomPercent
+        {
+            get { return _xmlZoomPercent; }
+            set { _xmlZoomPercent = value; OnPropertyChanged(); }
+        }
+
 
 
         //private int _browserGridRowSpan;
@@ -468,11 +487,12 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                 }
 
                 // Get the directory and filename (without extension) of the input PDF
+                
+                /*string datetimeMark = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+                string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ScreenShotViewer_{datetimeMark}.jpg");*/
                 string inputDirectory = Path.GetDirectoryName(GlobalXmlFilePath);
                 string inputFileNameWithoutExt = Path.GetFileNameWithoutExtension(GlobalXmlFilePath);
-                string datetimeMark = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
-                //string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ScreenShotViewer.jpg");
-                string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_ScreenShotViewer_{datetimeMark}.jpg");
+                string outImageFile = Path.Combine(inputDirectory, $"{inputFileNameWithoutExt}_Viewer.jpg");
 
 
                 // Get the primary screen size
@@ -499,7 +519,7 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                     IsCustom = false
                 });
 
-                ////Process.Start(outImageFile);
+                /*//Process.Start(outImageFile);
                 //// Try to open the image
                 //try
                 //{
@@ -508,7 +528,7 @@ namespace Usml_Xml_Pdf_Viewer.ViewModel
                 //catch (Exception startEx)
                 //{
                 //    Growl.Warning("Screenshot saved but could not open the file.");
-                //}
+                //}*/
             }
             catch (Exception ex)
             {
@@ -1599,7 +1619,11 @@ XML Tag: <{highlightInfo.xmlTag}>";
                         {
                             CefBrowsers.ZoomLevel -= 0.5;
                         }
+                        
+                        double zoomPercent = Math.Pow(1.2, CefBrowsers.ZoomLevel) * 100;
 
+                        
+                        CSSZoomPercent = Math.Round(zoomPercent);
                         args.Handled = true;
                     }
                 }
@@ -1632,6 +1656,10 @@ XML Tag: <{highlightInfo.xmlTag}>";
                         {
                             XmlTextFontSize -= 0.5;
                         }
+
+                        double zoomPercent = XmlTextFontSize * 100 / 12;
+
+                        XmlZoomPercent = Math.Round(zoomPercent);
 
                         args.Handled = true;
                     }
